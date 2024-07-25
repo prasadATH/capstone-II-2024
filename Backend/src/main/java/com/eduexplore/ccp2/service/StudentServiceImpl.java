@@ -1,9 +1,9 @@
 package com.eduexplore.ccp2.service;
 
-import com.joelcodes.studentsystem.controller.AuthController;
-import com.joelcodes.studentsystem.model.Student;
-import com.joelcodes.studentsystem.model.Traveller;
-import com.joelcodes.studentsystem.repository.StudentRepository;
+import com.eduexplore.ccp2.controller.AuthController;
+import com.eduexplore.ccp2.model.Student;
+import com.eduexplore.ccp2.model.Traveller;
+import com.eduexplore.ccp2.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
