@@ -1,10 +1,10 @@
-package com.joelcodes.studentsystem.controller;
-import com.joelcodes.studentsystem.service.StudentService;
+package com.ccp.demo.controller;
+import com.ccp.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.joelcodes.studentsystem.service.StudentServiceImpl.logger;
+import static com.ccp.demo.service.StudentServiceImpl.logger;
 
 // EmailController.java
 @RestController

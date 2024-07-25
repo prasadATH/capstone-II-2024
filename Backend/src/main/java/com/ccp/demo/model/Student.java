@@ -1,4 +1,4 @@
-package com.joelcodes.studentsystem.model;
+package com.ccp.demo.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

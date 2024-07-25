@@ -1,6 +1,6 @@
-package com.joelcodes.studentsystem.controller;
+package com.ccp.demo.controller;
 
-import com.joelcodes.studentsystem.service.StudentService;
+import com.ccp.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

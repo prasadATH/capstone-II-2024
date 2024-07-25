@@ -1,7 +1,7 @@
-package com.joelcodes.studentsystem.service;
+package com.ccp.demo.service;
 
-import com.joelcodes.studentsystem.model.Student;
-import com.joelcodes.studentsystem.model.Traveller;
+import com.ccp.demo.model.Student;
+import com.ccp.demo.model.Traveller;
 
 import java.util.List;
 

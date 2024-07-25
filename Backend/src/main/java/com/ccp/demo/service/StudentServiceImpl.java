@@ -1,9 +1,9 @@
-package com.joelcodes.studentsystem.service;
+package com.ccp.demo.service;
 
-import com.joelcodes.studentsystem.controller.AuthController;
-import com.joelcodes.studentsystem.model.Student;
-import com.joelcodes.studentsystem.model.Traveller;
-import com.joelcodes.studentsystem.repository.StudentRepository;
+import com.ccp.demo.controller.AuthController;
+import com.ccp.demo.model.Student;
+import com.ccp.demo.model.Traveller;
+import com.ccp.demo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;

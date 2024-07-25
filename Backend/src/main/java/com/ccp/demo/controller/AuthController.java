@@ -1,4 +1,4 @@
-package com.joelcodes.studentsystem.controller;
+package com.ccp.demo.controller;
 
 public class AuthController {
 }

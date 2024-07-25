@@ -1,5 +1,5 @@
-package com.joelcodes.studentsystem.controller;
-import com.joelcodes.studentsystem.service.StudentService;
+package com.ccp.demo.controller;
+import com.ccp.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
