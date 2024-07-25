@@ -128,3 +128,13 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# IntelliJ IDEA project files
+.idea/
+
+# Maven directory
+.mvn/
+
+# Maven POM file
+pom.xml
