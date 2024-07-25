@@ -138,3 +138,10 @@ dist
 
 # Maven POM file
 pom.xml
+
+# Maven wrapper files
+mvnw
+mvnw.cmd
+
+# IntelliJ IDEA module file
+demo.iml
