@@ -145,6 +145,7 @@ mvnw.cmd
 
 # IntelliJ IDEA module file
 demo.iml
+.iml
 #ignore react extra files
 package.json
 package-lock.json
