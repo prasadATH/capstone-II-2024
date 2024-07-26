@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class StudentServiceImpl implements StudentService {
     public static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @Autowired
     private StudentRepository studentRepository;
