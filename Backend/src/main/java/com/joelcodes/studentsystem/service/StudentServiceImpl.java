@@ -1,5 +1,6 @@
 package com.joelcodes.studentsystem.service;
 
+import com.joelcodes.studentsystem.controller.AuthController;
 import com.joelcodes.studentsystem.model.Traveller;
 import com.joelcodes.studentsystem.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
