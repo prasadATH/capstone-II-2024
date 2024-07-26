@@ -121,4 +121,7 @@ public class StudentServiceImpl implements StudentService {
         return otp.toString();
     }
 
+
+    // Return the generated OTP as a string
+
 }
