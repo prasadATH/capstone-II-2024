@@ -1,0 +1,15 @@
+com\joelcodes\studentsystem\model\Student.class
+com\joelcodes\studentsystem\service\StudentService.class
+com\joelcodes\studentsystem\controller\LoginController.class
+com\joelcodes\studentsystem\controller\EmailController.class
+com\joelcodes\studentsystem\controller\EmailController$EmailRequest.class
+com\joelcodes\studentsystem\repository\StudentRepository.class
+com\joelcodes\studentsystem\controller\NewPasswordController$PasswordRequest.class
+com\joelcodes\studentsystem\model\Traveller.class
+com\joelcodes\studentsystem\controller\AuthController.class
+com\joelcodes\studentsystem\controller\LoginController$LoginRequest.class
+com\joelcodes\studentsystem\StudentsystemApplication.class
+com\joelcodes\studentsystem\controller\NewPasswordController.class
+com\joelcodes\studentsystem\service\StudentServiceImpl.class
+com\joelcodes\studentsystem\controller\OtpController$OtpRequest.class
+com\joelcodes\studentsystem\controller\OtpController.class
