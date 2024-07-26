@@ -130,22 +130,4 @@ dist
 .pnp.*
 
 
-# IntelliJ IDEA project files
-.idea/
 
-# Maven directory
-.mvn/
-
-# Maven POM file
-pom.xml
-
-# Maven wrapper files
-mvnw
-mvnw.cmd
-
-# IntelliJ IDEA module file
-demo.iml
-.iml
-#ignore react extra files
-package.json
-package-lock.json
