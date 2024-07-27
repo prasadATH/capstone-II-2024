@@ -5,6 +5,7 @@ package com.joelcodes.studentsystem.controller;
 import com.joelcodes.studentsystem.model.Course;
 import com.joelcodes.studentsystem.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,12 @@ public class CourseController {
     @PostMapping("/add")
     public void addCourse(@RequestBody Course course) {
         courseService.saveCourse(course);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteCourseById(@PathVariable int id) {
+        courseService.deleteCourseById(id);
+        return ResponseEntity.noContent().build();
     }
 
 
