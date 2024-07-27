@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -27,8 +30,8 @@ public class CourseController {
     private CourseService courseService;
 
     @PostMapping("/filter")
-    public List<Course> getFilteredCourses(@RequestBody FilterCriteria filterCriteria) {
-        return courseService.getFilteredCourses(
+    public List<CourseDto> getFilteredCourses(@RequestBody FilterCriteria filterCriteria) {
+        List<Course> courses = courseService.getFilteredCourses(
                 filterCriteria.getSearch(),
                 filterCriteria.getPriceRange(),
                 filterCriteria.getEventDuration(),
@@ -36,7 +39,26 @@ public class CourseController {
                 filterCriteria.getEducationalFocus(),
                 filterCriteria.getLearningOutcome()
         );
+
+        return courses.stream().map(course -> {
+            CourseDto dto = new CourseDto();
+            dto.setTitle(course.getName());  // Adjust according to your Course model
+            dto.setPrice(course.getPrice()); // Adjust according to your Course model
+            dto.setStandard(course.getStandard()); // Adjust according to your Course model
+            dto.setLocation(course.getLocation()); // Adjust according to your Course model
+
+            try {
+                if (course.getImage() != null) {
+                    dto.setImage(convertBlobToBase64(course.getImage()));
+                }
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
+
+            return dto;
+        }).collect(Collectors.toList());
     }
+
 
     @PostMapping("/add")
     public ResponseEntity<Void> addCourse(@RequestParam("image") MultipartFile image, @RequestParam("name") String name,
@@ -77,6 +99,11 @@ public class CourseController {
         }
     }
 
+    private String convertBlobToBase64(Blob blob) throws IOException, SQLException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(blob.getBytes(1, (int) blob.length()));
+        byte[] bytes = inputStream.readAllBytes();
+        return Base64.getEncoder().encodeToString(bytes);
+    }
 
     static class FilterCriteria {
         private String search;
@@ -135,6 +162,56 @@ public class CourseController {
             this.learningOutcome = learningOutcome;
         }
     }
+
+    public class CourseDto {
+        private String title;
+        private String price;
+        private String standard;
+        private String location;
+        private String image;
+
+        // Getters and Setters
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getPrice() {
+            return price;
+        }
+
+        public void setPrice(String price) {
+            this.price = price;
+        }
+
+        public String getStandard() {
+            return standard;
+        }
+
+        public void setStandard(String standard) {
+            this.standard = standard;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+    }
+
 
 }
 
