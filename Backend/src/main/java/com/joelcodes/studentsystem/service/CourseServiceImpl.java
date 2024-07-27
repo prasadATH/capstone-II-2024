@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CourseServiceImpl implements CourseService {
     @Autowired
@@ -34,5 +36,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void deleteCourseById(int id) {
         courseRepository.deleteById(id);
+    }
+
+    @Override
+    public Course getCourseById(int id) {
+        Optional<Course> optionalCourse = courseRepository.findById(id);
+        return optionalCourse.orElse(null);
     }
 }

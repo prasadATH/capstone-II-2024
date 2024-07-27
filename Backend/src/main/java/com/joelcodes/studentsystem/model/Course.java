@@ -6,12 +6,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.sql.Blob;
+
 @Entity
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String image;
+    private Blob image;
     private String name;
     private String price;
     private String standard;
@@ -20,7 +22,7 @@ public class Course {
     // Constructors
     public Course() {}
 
-    public Course(String image, String name, String price, String standard, String location) {
+    public Course(Blob image, String name, String price, String standard, String location) {
         this.image = image;
         this.name = name;
         this.price = price;
@@ -37,11 +39,11 @@ public class Course {
         this.id = id;
     }
 
-    public String getImage() {
+    public Blob getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Blob image) {
         this.image = image;
     }
 

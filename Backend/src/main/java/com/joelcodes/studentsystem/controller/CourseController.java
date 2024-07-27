@@ -5,9 +5,17 @@ package com.joelcodes.studentsystem.controller;
 import com.joelcodes.studentsystem.model.Course;
 import com.joelcodes.studentsystem.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialException;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -31,8 +39,18 @@ public class CourseController {
     }
 
     @PostMapping("/add")
-    public void addCourse(@RequestBody Course course) {
-        courseService.saveCourse(course);
+    public ResponseEntity<Void> addCourse(@RequestParam("image") MultipartFile image, @RequestParam("name") String name,
+                                          @RequestParam("price") String price, @RequestParam("standard") String standard,
+                                          @RequestParam("location") String location) {
+        try {
+            Blob blobImage = new javax.sql.rowset.serial.SerialBlob(image.getBytes());
+            Course course = new Course(blobImage, name, price, standard, location);
+            courseService.saveCourse(course);
+            return ResponseEntity.ok().build();
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 
     @DeleteMapping("/delete/{id}")
@@ -41,6 +59,23 @@ public class CourseController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<byte[]> getCourseById(@PathVariable int id) {
+        Course course = courseService.getCourseById(id);
+        if (course == null) {
+            return ResponseEntity.notFound().build();
+        }
+        try {
+            byte[] imageBytes = course.getImage().getBytes(1, (int) course.getImage().length());
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG); // or MediaType.IMAGE_PNG based on your image type
+            headers.setContentLength(imageBytes.length);
+            return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
 
 
     static class FilterCriteria {
