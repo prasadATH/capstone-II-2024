@@ -11,4 +11,6 @@ public interface CourseService {
     void deleteCourseById(int id); // Add this line
 
     Course getCourseById(int id);
+
+    public List<Course> getAllCourses();
 }

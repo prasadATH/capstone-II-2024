@@ -13,7 +13,6 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-
     @Override
     public List<Course> getFilteredCourses(String search, String priceRange, String eventDuration, String location, String educationalFocus, String learningOutcome) {
         // Implement the filtering logic here
@@ -29,7 +28,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void saveCourse(Course course) {
-
         courseRepository.save(course);
     }
 
@@ -42,5 +40,10 @@ public class CourseServiceImpl implements CourseService {
     public Course getCourseById(int id) {
         Optional<Course> optionalCourse = courseRepository.findById(id);
         return optionalCourse.orElse(null);
+    }
+
+    @Override
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
     }
 }

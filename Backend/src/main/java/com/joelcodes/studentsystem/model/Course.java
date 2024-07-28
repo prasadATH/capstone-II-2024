@@ -1,19 +1,16 @@
 package com.joelcodes.studentsystem.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import java.sql.Blob;
 
 @Entity
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Blob image;
+    private String image;  // Change Blob to String
     private String name;
     private String price;
     private String standard;
@@ -22,7 +19,7 @@ public class Course {
     // Constructors
     public Course() {}
 
-    public Course(Blob image, String name, String price, String standard, String location) {
+    public Course(String image, String name, String price, String standard, String location) {
         this.image = image;
         this.name = name;
         this.price = price;
@@ -39,11 +36,11 @@ public class Course {
         this.id = id;
     }
 
-    public Blob getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -79,4 +76,3 @@ public class Course {
         this.location = location;
     }
 }
-

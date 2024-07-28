@@ -1,31 +1,19 @@
 package com.joelcodes.studentsystem.controller;
 
-
-
 import com.joelcodes.studentsystem.model.Course;
 import com.joelcodes.studentsystem.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.sql.rowset.serial.SerialException;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/courses")
 @CrossOrigin
-
 public class CourseController {
+
     @Autowired
     private CourseService courseService;
 
@@ -42,37 +30,23 @@ public class CourseController {
 
         return courses.stream().map(course -> {
             CourseDto dto = new CourseDto();
-            dto.setTitle(course.getName());  // Adjust according to your Course model
-            dto.setPrice(course.getPrice()); // Adjust according to your Course model
-            dto.setStandard(course.getStandard()); // Adjust according to your Course model
-            dto.setLocation(course.getLocation()); // Adjust according to your Course model
-
-            try {
-                if (course.getImage() != null) {
-                    dto.setImage(convertBlobToBase64(course.getImage()));
-                }
-            } catch (IOException | SQLException e) {
-                e.printStackTrace();
-            }
-
+            dto.setTitle(course.getName());
+            dto.setPrice(course.getPrice());
+            dto.setStandard(course.getStandard());
+            dto.setLocation(course.getLocation());
+            dto.setImage(course.getImage());
             return dto;
         }).collect(Collectors.toList());
     }
 
-
     @PostMapping("/add")
-    public ResponseEntity<Void> addCourse(@RequestParam("image") MultipartFile image, @RequestParam("name") String name,
+    public ResponseEntity<Void> addCourse(@RequestParam("image") String imageUrl, @RequestParam("name") String name,
                                           @RequestParam("price") String price, @RequestParam("standard") String standard,
                                           @RequestParam("location") String location) {
-        try {
-            Blob blobImage = new javax.sql.rowset.serial.SerialBlob(image.getBytes());
-            Course course = new Course(blobImage, name, price, standard, location);
-            courseService.saveCourse(course);
-            return ResponseEntity.ok().build();
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).build();
-        }
+        String directImageUrl = convertToDriveDirectLink(imageUrl);
+        Course course = new Course(directImageUrl, name, price, standard, location);
+        courseService.saveCourse(course);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{id}")
@@ -82,27 +56,38 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getCourseById(@PathVariable int id) {
+    public ResponseEntity<CourseDto> getCourseById(@PathVariable int id) {
         Course course = courseService.getCourseById(id);
         if (course == null) {
             return ResponseEntity.notFound().build();
         }
-        try {
-            byte[] imageBytes = course.getImage().getBytes(1, (int) course.getImage().length());
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG); // or MediaType.IMAGE_PNG based on your image type
-            headers.setContentLength(imageBytes.length);
-            return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).build();
-        }
+        CourseDto dto = new CourseDto();
+        dto.setTitle(course.getName());
+        dto.setPrice(course.getPrice());
+        dto.setStandard(course.getStandard());
+        dto.setLocation(course.getLocation());
+        dto.setImage(course.getImage());
+        return ResponseEntity.ok(dto);
     }
 
-    private String convertBlobToBase64(Blob blob) throws IOException, SQLException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(blob.getBytes(1, (int) blob.length()));
-        byte[] bytes = inputStream.readAllBytes();
-        return Base64.getEncoder().encodeToString(bytes);
+    @GetMapping
+    public ResponseEntity<List<CourseDto>> getAllCourses() {
+        List<Course> courses = courseService.getAllCourses();
+        List<CourseDto> courseDtos = courses.stream().map(course -> {
+            CourseDto dto = new CourseDto();
+            dto.setTitle(course.getName());
+            dto.setPrice(course.getPrice());
+            dto.setStandard(course.getStandard());
+            dto.setLocation(course.getLocation());
+            dto.setImage(course.getImage());
+            return dto;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(courseDtos);
+    }
+
+    private String convertToDriveDirectLink(String link) {
+        String fileId = link.split("/d/")[1].split("/")[0];
+        return "https://drive.google.com/uc?export=view&id=" + fileId;
     }
 
     static class FilterCriteria {
@@ -211,7 +196,4 @@ public class CourseController {
             this.image = image;
         }
     }
-
-
 }
-
