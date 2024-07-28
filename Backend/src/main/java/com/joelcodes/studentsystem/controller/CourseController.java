@@ -35,6 +35,9 @@ public class CourseController {
             dto.setStandard(course.getStandard());
             dto.setLocation(course.getLocation());
             dto.setImage(course.getImage());
+            dto.setEducationalFocus(course.getEducationalFocus());
+            dto.setLearningOutcome(course.getLearningOutcome());
+            dto.setEventDuration(course.getEventDuration());
             return dto;
         }).collect(Collectors.toList());
     }
@@ -42,9 +45,12 @@ public class CourseController {
     @PostMapping("/add")
     public ResponseEntity<Void> addCourse(@RequestParam("image") String imageUrl, @RequestParam("name") String name,
                                           @RequestParam("price") String price, @RequestParam("standard") String standard,
-                                          @RequestParam("location") String location) {
-        String directImageUrl = convertToDriveDirectLink(imageUrl);
-        Course course = new Course(directImageUrl, name, price, standard, location);
+                                          @RequestParam("location") String location,
+                                          @RequestParam("educationalFocus") String educationalFocus,
+                                          @RequestParam("learningOutcome") String learningOutcome,
+                                          @RequestParam("eventDuration") String eventDuration) {
+        String thumbnailImageUrl = convertToThumbnailLink(imageUrl);
+        Course course = new Course(thumbnailImageUrl, name, price, standard, location, educationalFocus, learningOutcome, eventDuration);
         courseService.saveCourse(course);
         return ResponseEntity.ok().build();
     }
@@ -67,6 +73,9 @@ public class CourseController {
         dto.setStandard(course.getStandard());
         dto.setLocation(course.getLocation());
         dto.setImage(course.getImage());
+        dto.setEducationalFocus(course.getEducationalFocus());
+        dto.setLearningOutcome(course.getLearningOutcome());
+        dto.setEventDuration(course.getEventDuration());
         return ResponseEntity.ok(dto);
     }
 
@@ -80,14 +89,24 @@ public class CourseController {
             dto.setStandard(course.getStandard());
             dto.setLocation(course.getLocation());
             dto.setImage(course.getImage());
+            dto.setEducationalFocus(course.getEducationalFocus());
+            dto.setLearningOutcome(course.getLearningOutcome());
+            dto.setEventDuration(course.getEventDuration());
             return dto;
         }).collect(Collectors.toList());
         return ResponseEntity.ok(courseDtos);
     }
 
-    private String convertToDriveDirectLink(String link) {
+    @PutMapping("/update-image/{id}")
+    public ResponseEntity<Void> updateCourseImage(@PathVariable int id, @RequestParam("image") String imageUrl) {
+        String thumbnailImageUrl = convertToThumbnailLink(imageUrl);
+        courseService.updateCourseImage(id, thumbnailImageUrl);
+        return ResponseEntity.ok().build();
+    }
+
+    private String convertToThumbnailLink(String link) {
         String fileId = link.split("/d/")[1].split("/")[0];
-        return "https://drive.google.com/uc?export=view&id=" + fileId;
+        return "https://drive.google.com/thumbnail?id=" + fileId;
     }
 
     static class FilterCriteria {
@@ -154,6 +173,9 @@ public class CourseController {
         private String standard;
         private String location;
         private String image;
+        private String educationalFocus;
+        private String learningOutcome;
+        private String eventDuration;
 
         // Getters and Setters
         public String getTitle() {
@@ -194,6 +216,30 @@ public class CourseController {
 
         public void setImage(String image) {
             this.image = image;
+        }
+
+        public String getEducationalFocus() {
+            return educationalFocus;
+        }
+
+        public void setEducationalFocus(String educationalFocus) {
+            this.educationalFocus = educationalFocus;
+        }
+
+        public String getLearningOutcome() {
+            return learningOutcome;
+        }
+
+        public void setLearningOutcome(String learningOutcome) {
+            this.learningOutcome = learningOutcome;
+        }
+
+        public String getEventDuration() {
+            return eventDuration;
+        }
+
+        public void setEventDuration(String eventDuration) {
+            this.eventDuration = eventDuration;
         }
     }
 }

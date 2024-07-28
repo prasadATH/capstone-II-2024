@@ -13,4 +13,5 @@ public interface CourseService {
     Course getCourseById(int id);
 
     public List<Course> getAllCourses();
+    void updateCourseImage(int id, String imageUrl);
 }

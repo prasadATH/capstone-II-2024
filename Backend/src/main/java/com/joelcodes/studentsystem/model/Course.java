@@ -15,16 +15,22 @@ public class Course {
     private String price;
     private String standard;
     private String location;
+    private String educationalFocus;
+    private String learningOutcome;
+    private String eventDuration;
 
     // Constructors
     public Course() {}
 
-    public Course(String image, String name, String price, String standard, String location) {
+    public Course(String image, String name, String price, String standard, String location, String educationalFocus, String learningOutcome, String eventDuration) {
         this.image = image;
         this.name = name;
         this.price = price;
         this.standard = standard;
         this.location = location;
+        this.educationalFocus = educationalFocus;
+        this.learningOutcome = learningOutcome;
+        this.eventDuration = eventDuration;
     }
 
     // Getters and Setters
@@ -74,5 +80,29 @@ public class Course {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getEducationalFocus() {
+        return educationalFocus;
+    }
+
+    public void setEducationalFocus(String educationalFocus) {
+        this.educationalFocus = educationalFocus;
+    }
+
+    public String getLearningOutcome() {
+        return learningOutcome;
+    }
+
+    public void setLearningOutcome(String learningOutcome) {
+        this.learningOutcome = learningOutcome;
+    }
+
+    public String getEventDuration() {
+        return eventDuration;
+    }
+
+    public void setEventDuration(String eventDuration) {
+        this.eventDuration = eventDuration;
     }
 }
