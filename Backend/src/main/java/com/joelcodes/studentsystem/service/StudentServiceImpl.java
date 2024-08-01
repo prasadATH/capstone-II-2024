@@ -1,7 +1,6 @@
 package com.joelcodes.studentsystem.service;
 
 import com.joelcodes.studentsystem.controller.AuthController;
-import com.joelcodes.studentsystem.model.Student;
 import com.joelcodes.studentsystem.model.Traveller;
 import com.joelcodes.studentsystem.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Random;
 
 @Service
@@ -120,5 +116,8 @@ public class StudentServiceImpl implements StudentService {
         // Return the generated OTP as a string
         return otp.toString();
     }
+
+
+    // Return the generated OTP as a string
 
 }
