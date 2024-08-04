@@ -6,6 +6,7 @@ import com.joelcodes.studentsystem.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +22,13 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public Traveller saveTraveller(Traveller traveller) {
+
+        String encodedPassword = passwordEncoder.encode(traveller.getPassword());
+        traveller.setPassword(encodedPassword);
         return studentRepository.save(traveller);
     }
 
@@ -34,7 +40,7 @@ public class StudentServiceImpl implements StudentService {
         // logger.info("Searched for: {}",
         // studentRepository.findByUsername(username).getUsername()+
         // studentRepository.findByUsername(username).getPassword());
-        if (traveller != null && traveller.getPassword().equals(password)) {
+        if (traveller != null && passwordEncoder.matches(password, traveller.getPassword())) {
             return traveller;
         }
         return null; // Return null if traveller is not found or password does not match
